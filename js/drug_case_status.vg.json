@@ -1,0 +1,155 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 800,
+    "height": 300,
+    "params": [
+        {
+            "name": "Year_selection",
+            "value": 2024,
+            "bind": {
+                "input": "range",
+                "min": 2018,
+                "max": 2024,
+                "step": 1,
+                "name": "Year: "
+            }
+        }
+    ],
+    "data": {
+        "url": "https://raw.githubusercontent.com/lemon040805/34003568_w10/refs/heads/main/data/drug_case_status.csv"
+    },
+    "transform": [
+        {
+            "pivot": "CaseStatus",
+            "value": "Count",
+            "groupby": [
+                "Year"
+            ],
+            "op": "sum"
+        },
+        {
+            "calculate": "datum['New Cases']",
+            "as": "First"
+        },
+        {
+            "calculate": "datum['Repeat Cases']",
+            "as": "Repeat"
+        },
+        {
+            "calculate": "datum.First + datum.Repeat",
+            "as": "Total"
+        },
+        {
+            "calculate": "datum.Total == 0 ? 0 : datum.Repeat / datum.Total",
+            "as": "RepeatShare"
+        },
+        {
+            "calculate": "1 - datum.RepeatShare",
+            "as": "FirstShare"
+        },
+        {
+            "filter": "datum.Year == Year_selection"
+        },
+        {
+            "calculate": "sequence(1,101)",
+            "as": "Sequence"
+        },
+        {
+            "flatten": [
+                "Sequence"
+            ]
+        },
+        {
+            "calculate": "round(datum.RepeatShare * 100)",
+            "as": "RepeatSquares"
+        },
+        {
+            "calculate": "100 - datum.RepeatSquares",
+            "as": "FirstSquares"
+        },
+        {
+            "calculate": "datum.Sequence <= datum.FirstSquares ? 'First Case' : 'Repeat Case'",
+            "as": "CaseType"
+        },
+        {
+            "calculate": "ceil (datum.Sequence / 10)",
+            "as": "row"
+        },
+        {
+            "calculate": "datum.Sequence - datum.row * 10",
+            "as": "col"
+        },
+        {
+            "calculate": "datum.CaseType === 'First Case' ? datum.First : datum.Repeat",
+            "as": "CaseCount"
+        },
+        {
+            "calculate": "datum.CaseType === 'First Case' ? datum.FirstShare : datum.RepeatShare",
+            "as": "CaseShare"
+        }
+    ],
+    "layer": [
+        {
+            "mark": {
+                "type": "rect",
+                "stroke": "white",
+                "strokeWidth": 2
+            },
+            "encoding": {
+                "x": {
+                    "field": "col",
+                    "axis": null
+                },
+                "y": {
+                    "field": "row",
+                    "axis": null
+                },
+                "color": {
+                    "field": "CaseType",
+                    "type": "nominal",
+                    "scale": {
+                        "domain": [
+                            "First Case",
+                            "Repeat Case"
+                        ],
+                        "range": [
+                            "#dc2626",
+                            "#e6e9ef"
+                        ]
+                    },
+                    "legend": {
+                        "title": "Case Type",
+                        "orient": "bottom",
+                        "labelFontSize": 14,
+                        "titleFontSize": 15
+                    }
+                },
+                "tooltip": [
+                    {
+                        "field": "Year",
+                        "type": "quantitative",
+                        "title": "Year",
+                        "format": "0"
+                    },
+                    {
+                        "field": "CaseType",
+                        "type": "nominal",
+                        "title": "Case Type"
+                    },
+                    {
+                        "field": "CaseCount",
+                        "type": "quantitative",
+                        "title": "Cases",
+                        "format": ","
+                    },
+                    {
+                        "field": "CaseShare",
+                        "type": "quantitative",
+                        "title": "Share",
+                        "format": ".0%"
+                    }
+                ]
+            }
+        }
+    ]
+}

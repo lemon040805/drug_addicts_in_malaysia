@@ -1,0 +1,388 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "params": [
+        {
+            "name": "Year_selection",
+            "value": 2021,
+            "bind": {
+                "input": "range",
+                "min": 2000,
+                "max": 2021,
+                "step": 1,
+                "name": "Year:  "
+            }
+        }
+    ],
+    "vconcat": [
+        {
+            "title": "Geographic Distribution of Drug Addiction in Malaysia",
+            "width": 1200,
+            "height": 600,
+            "projection": {
+                "type": "mercator"
+            },
+            "layer": [
+                {
+                    "data": {
+                        "url": "https://raw.githubusercontent.com/lemon040805/34003568_w10/refs/heads/main/data/ne_10m.topojson",
+                        "format": {
+                            "type": "topojson",
+                            "feature": "ne_10m_graticules_5"
+                        }
+                    },
+                    "mark": {
+                        "type": "geoshape",
+                        "fill": null,
+                        "stroke": "lightgray"
+                    }
+                },
+                {
+                    "data": {
+                        "url": "https://raw.githubusercontent.com/lemon040805/34003568_w10/refs/heads/main/data/ne_10m.topojson",
+                        "format": {
+                            "type": "topojson",
+                            "feature": "ne_10m_admin_1_states_provinces"
+                        }
+                    },
+                    "transform": [
+                        {
+                            "calculate": "'Data is not available in ' + datum.properties.name",
+                            "as": "note"
+                        }
+                    ],
+                    "mark": {
+                        "type": "geoshape",
+                        "fill": "#ddd",
+                        "stroke": "white",
+                        "strokeWidth": 1
+                    },
+                    "encoding": {
+                        "tooltip": {
+                            "field": "note"
+                        }
+                    }
+                },
+                {
+                    "data": {
+                        "url": "https://raw.githubusercontent.com/lemon040805/34003568_w10/refs/heads/main/data/state_drug_population_by_year.csv"
+                    },
+                    "transform": [
+                        {
+                            "calculate": "datum.state === 'W.P. Kuala Lumpur' ? 'Kuala Lumpur' : datum.state === 'W.P. Labuan' ? 'Labuan' : datum.state === 'W.P. Putrajaya' ? 'Putrajaya' : datum.state",
+                            "as": "state_key"
+                        },
+                        {
+                            "lookup": "state_key",
+                            "from": {
+                                "data": {
+                                    "url": "https://raw.githubusercontent.com/lemon040805/34003568_w10/refs/heads/main/js/MalaysiaMapWithGraticules.topojson",
+                                    "format": {
+                                        "type": "topojson",
+                                        "feature": "ne_10m_admin_1_states_provinces"
+                                    }
+                                },
+                                "key": "properties.name"
+                            },
+                            "as": "geo"
+                        },
+                        {
+                            "filter": "datum.year == Year_selection"
+                        },
+                        {
+                            "calculate": "datum.drug_addicts / datum.population * 100",
+                            "as": "rate_per_100k"
+                        }
+                    ],
+                    "mark": {
+                        "type": "geoshape",
+                        "stroke": "#fff",
+                        "strokeWidth": 0.5
+                    },
+                    "encoding": {
+                        "shape": {
+                            "field": "geo",
+                            "type": "geojson"
+                        },
+                        "color": {
+                            "field": "rate_per_100k",
+                            "type": "quantitative",
+                            "scale": {
+                                "domain": [
+                                    20,
+                                    200
+                                ],
+                                "nice": true,
+                                "scheme": "reds"
+                            },
+                            "legend": {
+                                "title": "Drug Addicts per 100,000",
+                                "format": ".2s"
+                            }
+                        },
+                        "tooltip": [
+                            {
+                                "field": "year",
+                                "title": "Year",
+                                "type": "quantitative"
+                            },
+                            {
+                                "field": "state",
+                                "title": "State",
+                                "type": "nominal"
+                            },
+                            {
+                                "field": "drug_addicts",
+                                "title": "Drug addicts",
+                                "type": "quantitative"
+                            },
+                            {
+                                "field": "rate_per_100k",
+                                "title": "Per 100,000",
+                                "type": "quantitative",
+                                "format": ".2f"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "data": {
+                        "url": "https://raw.githubusercontent.com/lemon040805/34003568_w10/main/data/state_drug_population_by_year.csv"
+                    },
+                    "transform": [
+                        {
+                            "lookup": "state",
+                            "from": {
+                                "data": {
+                                    "url": "https://raw.githubusercontent.com/lemon040805/34003568_w10/main/data/malaysia_state_centroids.csv"
+                                },
+                                "key": "state",
+                                "fields": [
+                                    "lat",
+                                    "lon"
+                                ]
+                            }
+                        },
+                        {
+                            "filter": "datum.state == 'Terengganu' || datum.state == 'Perlis' || datum.state == 'Kelantan' || datum.state == 'Pulau Pinang' || datum.state == 'W.P. Kuala Lumpur' || datum.state == 'Kedah' ||  datum.state == 'Sabah'"
+                        },
+                        {
+                            "filter": "datum.year == Year_selection"
+                        },
+                        {
+                            "calculate": "datum.drug_addicts / datum.population * 100",
+                            "as": "rate_per_100k"
+                        }
+                    ],
+                    "mark": {
+                        "type": "text",
+                        "fontStyle": "italic"
+                    },
+                    "encoding": {
+                        "text": {
+                            "field": "state",
+                            "type": "nominal"
+                        },
+                        "longitude": {
+                            "field": "lon",
+                            "type": "quantitative"
+                        },
+                        "latitude": {
+                            "field": "lat",
+                            "type": "quantitative"
+                        },
+                        "tooltip": [
+                            {
+                                "field": "year",
+                                "title": "Year",
+                                "type": "quantitative"
+                            },
+                            {
+                                "field": "state",
+                                "title": "State",
+                                "type": "nominal"
+                            },
+                            {
+                                "field": "drug_addicts",
+                                "title": "Drug addicts",
+                                "type": "quantitative"
+                            },
+                            {
+                                "field": "rate_per_100k",
+                                "title": "Per 100,000",
+                                "type": "quantitative",
+                                "format": ".2f"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "title": "Drug Type Distribution Among Reported Addiction Cases in Malaysia",
+            "width": 1200,
+            "height": 300,
+            "data": {
+                "url": "https://raw.githubusercontent.com/lemon040805/34003568_w10/refs/heads/main/data/drug_type_by_year.csv"
+            },
+            "transform": [
+                {
+                    "filter": "datum.year == Year_selection"
+                },
+                {
+                    "joinaggregate": [
+                        {
+                            "op": "sum",
+                            "field": "value",
+                            "as": "total_addicts"
+                        }
+                    ]
+                },
+                {
+                    "calculate": "datum.value / datum.total_addicts",
+                    "as": "percentage"
+                }
+            ],
+            "encoding": {
+                "theta": {
+                    "field": "value",
+                    "type": "quantitative",
+                    "stack": true
+                },
+                "color": {
+                    "field": "drug_type",
+                    "type": "nominal",
+                    "scale": {
+                        "domain": [
+                            "Heroin",
+                            "Morphine",
+                            "Opium",
+                            "Codeine",
+                            "Marijuana",
+                            "Ecstasy Pill",
+                            "Amphetamine",
+                            "Psychotropic Pill",
+                            "Opiate",
+                            "Amphetamine-type stimulants (ATS)",
+                            "Methamphetamine (crystalline/pills)",
+                            "Others"
+                        ],
+                        "range": [
+                            "#6c4f00",
+                            "#c6a000",
+                            "#00603d",
+                            "#008c5c",
+                            "#33b983",
+                            "#5ba8f7",
+                            "#002f64",
+                            "#1077f3",
+                            "#c85b00",
+                            "#bf8cfc",
+                            "#cc34cd",
+                            "#970098"
+                        ]
+                    }
+                },
+                "tooltip": [
+                    {
+                        "field": "year",
+                        "title": "Year",
+                        "type": "quantitative"
+                    },
+                    {
+                        "field": "drug_type",
+                        "title": "Type of Drug",
+                        "type": "nominal"
+                    },
+                    {
+                        "field": "value",
+                        "title": "Drug Addicts",
+                        "type": "quantitative",
+                        "format": ","
+                    },
+                    {
+                        "field": "percentage",
+                        "title": "Percentage",
+                        "format": ".1%",
+                        "type": "quantitative"
+                    }
+                ]
+            },
+            "layer": [
+                {
+                    "mark": {
+                        "type": "arc",
+                        "outerRadius": 80
+                    }
+                },
+                {
+                    "transform": [
+                        {
+                            "window": [
+                                {
+                                    "op": "rank",
+                                    "as": "ranking"
+                                }
+                            ],
+                            "sort": [
+                                {
+                                    "field": "percentage",
+                                    "order": "descending"
+                                }
+                            ]
+                        }
+                    ],
+                    "mark": {
+                        "type": "text",
+                        "radius": 100
+                    },
+                    "encoding": {
+                        "text": {
+                            "field": "percentage",
+                            "type": "quantitative",
+                            "format": ".1%"
+                        },
+                        "opacity": {
+                            "condition": {
+                                "test": "datum.ranking <= 3",
+                                "value": 1
+                            },
+                            "value": 0
+                        },
+                        "tooltip": [
+                            {
+                                "field": "year",
+                                "title": "Year",
+                                "type": "quantitative"
+                            },
+                            {
+                                "field": "drug_type",
+                                "title": "Type of Drug",
+                                "type": "nominal"
+                            },
+                            {
+                                "field": "value",
+                                "title": "Drug Addicts",
+                                "type": "quantitative",
+                                "format": ","
+                            },
+                            {
+                                "field": "percentage",
+                                "title": "Percentage",
+                                "format": ".1%",
+                                "type": "quantitative"
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    ],
+    "config": {
+        "title": {
+            "font": "sans-serif",
+            "fontSize": 14
+        }
+    }
+}
+
+

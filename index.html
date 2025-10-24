@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Drug Addiction in Malaysia</title>
+
+    <!-- Bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Bootstrap JS (for tabs & collapse/accordion) -->
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Bebas+Neue&display=swap"
+      rel="preload"
+      as="style"
+      onload="this.rel='stylesheet'"
+    />
+
+    <!-- Vega libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body>
+    <!-- HERO / HEADER -->
+    <header class="hero">
+      <div class="container-xl">
+        <div
+          class="d-flex flex-column flex-md-row align-items-md-end align-items-center justify-content-between"
+        >
+          <div class="mb-3 mb-md-0">
+            <div class="overline">PUBLIC HEALTH & HARM REDUCTION</div>
+            <h1 class="title">Drug Addiction in Malaysia</h1>
+            <p class="lead text-muted mb-2">
+  Agensi Antidadah Kebangsaan (AADK)—Malaysia’s National Anti-Drugs Agency under<br> the Ministry of Home Affairs—is the lead body for combating drugs and substance misuse.<br>
+  This dashboard uses AADK administrative datasets (via data.gov.my) to present national<br>
+  and state-level views of drug detections and case outcomes, with demographic<br>
+  breakdowns to support deeper understanding of the situation in Malaysia. Rates<br>
+  per 100,000 use DOSM population estimates. Figures reflect operational detections<br>
+  (including voluntary presentations and enforcement), not survey prevalence.
+</p>
+
+          </div>
+          <div class="hero-illustration mt-3 mt-md-0 ml-md-4 order-md-2">
+        <img
+  src="https://raw.githubusercontent.com/lemon040805/34003568_w10/main/data/substance-abuse.png"
+  alt="Illustration related to substance use and harm reduction"
+  style="max-width: clamp(140px, 18vw, 240px); height: auto;"
+  loading="lazy"
+/>
+      </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="page">
+      <div class="container-xl">
+<section class="mb-4" aria-label="Overview tiles and key facts">
+  <div class="container-xl px-0">
+    <div class="row align-items-stretch">
+      <div class="col-lg-7 mb-3 mb-lg-0">
+        <div class="overview-tiles">
+          <!-- Tile 1: People detected (per 100k) -->
+          <article class="card mb-3" aria-labelledby="tile1-title">
+            <div class="card-head d-flex align-items-start justify-content-between p-3">
+              <div>
+                <h2 id="tile1-title" class="h6 mb-1">People detected (per 100k)</h2>
+                <div class="caption text-muted">2024</div>
+              </div>
+
+              <div class="d-flex align-items-center">
+                <div
+                  class="chip mr-2"
+                  role="status"
+                  aria-live="polite"
+                  aria-label="Year over Year up 14.2 percent"
+                >
+                  <span class="trend" aria-hidden="true">▲</span>
+                  <span class="value">+14.2%</span>
+                </div>
+
+                <button
+                  class="info btn btn-sm btn-light"
+                  aria-label="Show definition"
+                  aria-controls="tt-people"
+                  aria-expanded="false"
+                >
+                  <span aria-hidden="true">ⓘ</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="px-3 pb-3">
+              <div class="big-number display-4">498</div>
+            </div>
+
+            <div id="tt-people" class="tooltip" role="tooltip">
+              <strong>Definition</strong><br />
+              People detected by AADK/PDRM/MOH in the selected year, per 100,000 population.
+              “Detected” includes voluntary presentation and enforcement detections;
+              it is <em>not</em> a survey estimate of total users.
+            </div>
+          </article>
+
+          <!-- Tile 2: First-time vs repeat detections -->
+          <article class="card" aria-labelledby="tile2-title">
+            <div class="card-head d-flex align-items-start justify-content-between p-3">
+              <h2 id="tile2-title" class="h6 mb-0">First-time vs repeat detections</h2>
+              <button
+                class="info btn btn-sm btn-light"
+                aria-label="Show definition"
+                aria-controls="tt-split"
+                aria-expanded="false"
+              >
+                <span aria-hidden="true">ⓘ</span>
+              </button>
+            </div>
+
+            <div class="px-3 pb-3">
+              <div class="big-number">
+                52% <span class="small">first-time</span>
+              </div>
+
+              <div
+                class="bar"
+                role="img"
+                aria-label="52 percent first-time, 48 percent repeat"
+              >
+                <span
+                  class="seg first"
+                  style="width: 52%"
+                  tabindex="0"
+                  data-label="First-time: 52%"
+                ></span>
+                <span
+                  class="seg repeat"
+                  style="width: 48%"
+                  tabindex="0"
+                  data-label="Repeat: 48%"
+                ></span>
+              </div>
+
+              <ul class="bar-legend" aria-hidden="true">
+                <li><span class="dot first"></span> First-time</li>
+                <li><span class="dot repeat"></span> Repeat</li>
+              </ul>
+            </div>
+
+            <div id="tt-split" class="tooltip" role="tooltip">
+              <strong>Definition</strong><br />
+              Share of detected individuals marked as <em>first-time</em> vs <em>repeat</em> in 2024.
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <aside class="col-lg-5">
+        <div class="card h-100">
+       
+          <div class="card-body d-flex flex-column">
+            <p class="mb-2">
+  <strong>Worldwide:</strong> About <strong>284&nbsp;million</strong> people used drugs in 2020—roughly
+  <strong>1 in 18</strong> adults—and this is about a <strong>26%</strong> increase since 2010. The most commonly
+  used drug is <strong>cannabis</strong> (around <strong>209&nbsp;million</strong> people, about <strong>4%</strong> of adults), followed by
+  <strong>amphetamines</strong> (about <strong>34&nbsp;million</strong> people, roughly <strong>0.7%</strong> of the global population).
+</p>
+<p class="mb-2">
+  <strong>Health impact:</strong> Drug use is linked to around <strong>5%</strong> of all substance-related deaths and
+  about <strong>9%</strong> of the overall health burden (DALYs) from substance use.
+</p>
+<p class="mb-2">
+  <strong>During COVID-19 lockdowns:</strong> in many places, drug use among teenagers <strong>fell</strong>, likely because
+  schools and social activities were closed.
+</p>
+<p class="mb-3">
+  <strong>Malaysia snapshot:</strong> National data (NHMS 2019) indicate <strong>marijuana</strong> is the most commonly used
+  illicit drug, followed by <strong>kratom</strong>. Among adolescents aged 13–18 in 2020, <strong>amphetamine-type
+  stimulants (ATS)</strong> were most common, then marijuana and opiates (AADK).
+</p>
+
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+
+<!-- TREND CARD -->
+<section class="mb-5">
+  <div class="card card-dosm shadow-sm">
+    <div class="card-header d-flex align-items-center justify-content-between">
+      <h5 class="card-title mb-0">How Is The Situation Trending?</h5>
+    </div>
+
+    <div class="card-body">
+      <div id="trend-slider-host" class="slider-host mb-2"></div>
+
+      <div class="row">
+        <div class="col-lg-8 mb-3 mb-lg-0">
+          <div class="viz-wrap h-100">
+            <div id="trend-vis" class="viz-box h-100"></div>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <aside class="h-100 d-flex" aria-label="Context on trend">
+            <div class="w-100 pr-3 pr-lg-4">
+              <p class="mb-2">
+                <strong>During 2020–2021</strong> detections dipped as movement controls disrupted
+                outreach, testing and reporting.
+              </p>
+              <p class="mb-0">
+                <strong>From 2022 onward</strong> detections rose as services reopened and enforcement
+                normalised. <strong>These are detections, not prevalence</strong> so levels can shift with
+                true use and with how actively services and enforcement operate.
+              </p>
+            </div>
+          </aside>
+        </div>
+      </div>
+
+      <hr class="my-4" />
+      <div class="text-right source">
+        Source:
+        <a
+          href="https://www.aadk.gov.my/wp-content/uploads/Statistik_penyalah_guna_dan_penagih_2018_sehingga_Q3-2024_08112024_kemaskini-9pm.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Statistics Of Drug And Substance Abuse And Addiction – Agensi Antidadah Kebangsaan (AADK)
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MAP CARD -->
+<section class="mb-5">
+  <div class="card card-dosm shadow-sm">
+    <div class="card-header d-flex align-items-center justify-content-between">
+      <h5 class="card-title mb-0">Where Is it happening most?</h5>
+    </div>
+
+    <div class="card-body">
+      <div id="map-slider-host" class="slider-host mb-2"></div>
+
+      <div class="row">
+        <div class="col-lg-8 mb-3 mb-lg-0">
+          <div class="viz-wrap h-100">
+            <div id="map-vis" class="viz-box h-100"></div>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <aside class="h-100 d-flex" aria-label="Map insights">
+            <div class="w-100 pr-3 pr-lg-4">
+              <p class="mb-2">
+                <strong>Persistent hotspots</strong> Northern and northeast Peninsular states—Kelantan,
+                Terengganu, Perlis and Kedah—tend to show the heaviest shading across years,
+                forming a contiguous high-detection corridor.
+              </p>
+              <p class="mb-2">
+                <strong>Lower baseline</strong> East Malaysia (Sabah, Sarawak) and the Klang Valley core
+                (Selangor) are generally lighter on the map relative to northern/eastern states.
+              </p>
+              <p class="mb-2">
+                <strong>Post-pandemic rebound</strong> Many states darken again from 2022 as outreach
+                resumes and enforcement normalises after COVID-19 disruptions.
+              </p>
+              <p class="mb-2">
+                <strong>Small-area volatility</strong> Federal territories—especially Putrajaya and Labuan—
+                can shift shading quickly year to year because small populations amplify changes
+                in detections.
+              </p>
+            </div>
+          </aside>
+        </div>
+      </div>
+
+      <hr class="my-4" />
+      <div class="text-right source">
+        Sources:<br />
+        <a
+          href="https://www.aadk.gov.my/wp-content/uploads/Statistik_penyalah_guna_dan_penagih_2018_sehingga_Q3-2024_08112024_kemaskini-9pm.pdf"
+          target="_blank" rel="noopener noreferrer"
+        >Drug And Substance Abuse And Addiction Rate Per 100,000 Population By State – Agensi Antidadah Kebangsaan (AADK)</a><br />
+        <a
+          href="https://data.humdata.org/dataset/cod-ab-mys"
+          target="_blank" rel="noopener noreferrer"
+        >Malaysia Administrative Boundaries – HDX (COD-AB-MYS)</a><br />
+        <a
+          href="https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/"
+          target="_blank" rel="noopener noreferrer"
+        >Natural Earth – 1:10m Admin 1 States and Provinces</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+        <!-- BAR CARD -->
+<section class="mb-5">
+  <div class="card card-dosm shadow-sm">
+    <div class="card-header d-flex align-items-center justify-content-between">
+      <h5 class="card-title mb-0">What Is Being Used?</h5>
+    </div>
+
+    <div class="card-body">
+      <div id="bar-slider-host" class="slider-host mb-2"></div>
+
+      <div class="row">
+        <div class="col-lg-8 mb-3 mb-lg-0">
+          <div class="viz-wrap h-100">
+            <div id="bar-vis" class="viz-box h-100"></div>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <aside class="h-100 d-flex" aria-label="Drug category insights">
+            <div class="w-100 pr-3 pr-lg-4">
+              <p class="mb-2">
+                <strong>ATS dominates</strong> across all years, widening its lead again after 2022. This
+                likely reflects both continued demand for stimulants and active detection in this category.
+              </p>
+              <p class="mb-2">
+                <strong>Opiates trend downward</strong> from earlier years, with a modest rebound most
+                recently. The category remains clearly below ATS by the end of the period.
+              </p>
+              <p class="mb-2">
+                <strong>Cannabis is rising</strong> from a low baseline, especially post-pandemic, but still
+                accounts for a smaller share of detections than ATS or opiates.
+              </p>
+              <p class="mb-2">
+                <strong>Psychotropic pills &amp; Others</strong> remain minor in level yet show steady growth
+                after 2022—this may be influenced by shifts in policing focus, testing, or reporting.
+              </p>
+              </p>
+            </div>
+          </aside>
+        </div>
+      </div>
+
+      <hr class="my-4" />
+      <div class="text-right source">
+        Source:
+        <a
+          href="https://www.aadk.gov.my/wp-content/uploads/Statistik_penyalah_guna_dan_penagih_2018_sehingga_Q3-2024_08112024_kemaskini-9pm.pdf"
+          target="_blank" rel="noopener noreferrer"
+        >
+          Statistics Of Drug And Substance Abuse And Addicts By Drug Category – Agensi Antidadah Kebangsaan (AADK)
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- AGE GROUPS & SEX CARD -->
+<section class="mb-5">
+  <div class="card card-dosm shadow-sm">
+    <div class="card-header d-flex align-items-center justify-content-between">
+      <h5 class="card-title mb-0">Who is most affected?</h5>
+    </div>
+
+    <div class="card-body">
+      <div id="sex-age-slider-host" class="slider-host mb-2"></div>
+
+      <!-- Moved description ABOVE the graph -->
+      <div class="pr-3 pr-lg-4 mb-3 insights-cols" aria-label="Age & sex insights">
+        <p class="mb-2">
+          <strong>Working-age shift</strong> Young adults led for most years, but by the latest<br />
+          year middle-aged adults edge ahead—suggesting an ageing cohort or changes in detection<br />
+          focus.
+        </p>
+        <p class="mb-2">
+          <strong>Youth down from the peak</strong> Rates for ages 15–24 have trended lower<br />
+          since pre-pandemic and remain well below the two working-age groups.
+        </p>
+        <p class="mb-2">
+          <strong>Older adults rising from a low base</strong> Rates have climbed steadily but<br />
+          still sit below the peak working-age groups.
+        </p>
+        <p class="mb-2">
+          <strong>Children minimal</strong> Detection rates among under-15s remain very low.
+        </p>
+        <p class="mb-0">
+          <strong>Sex disparity persists</strong> Men account for the vast majority of detections (order-of-magnitude<br />
+          higher than women). Both sexes dipped in 2020–2021 and reached new highs<br />
+          as services and enforcement normalised from 2022.
+        </p>
+      </div>
+
+      <!-- Graph -->
+      <div class="viz-wrap">
+        <div id="sex-age-vis" class="viz-box"></div>
+      </div>
+
+      <hr class="my-4" />
+      <div class="text-right source">
+        Sources:<br />
+        <a
+          href="https://www.aadk.gov.my/wp-content/uploads/Statistik_penyalah_guna_dan_penagih_2018_sehingga_Q3-2024_08112024_kemaskini-9pm.pdf"
+          target="_blank" rel="noopener noreferrer"
+        >Statistics Of Drug And Substance Abuse And Addicts By Age Range And Gender – Agensi Antidadah Kebangsaan (AADK)</a><br />
+        <a
+          href="https://open.dosm.gov.my/data-catalogue/population_malaysia"
+          target="_blank" rel="noopener noreferrer"
+        >Population Table: Malaysia</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+        <!-- CASE STATUS CARD -->
+<section class="mb-5">
+  <div class="card card-dosm shadow-sm">
+    <div class="card-header d-flex align-items-center justify-content-between">
+      <h5 class="card-title mb-0">What happens to detected cases?</h5>
+    </div>
+
+    <div class="card-body">
+      <div id="status-slider-host" class="slider-host mb-2"></div>
+
+      <div class="row">
+        <div class="col-lg-8 mb-3 mb-lg-0">
+          <div class="viz-wrap h-100">
+            <div id="status-vis" class="viz-box h-100"></div>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <aside class="h-100 d-flex" aria-label="Case status insights">
+            <div class="w-100 pr-3 pr-lg-4">
+              <p class="mb-2">
+                <strong>Rising share of repeat cases</strong> The balance shifts over the years from
+                mostly first-time detections toward a much larger share of repeat detections.
+              </p>
+              <p class="mb-2">
+                <strong>Pandemic pivot</strong> During COVID-19 disruptions, first-time detections fell
+                more sharply while repeat detections made up a bigger slice of the total.
+              </p>
+              <p class="mb-2">
+                <strong>Post-2022 recovery</strong> As services and enforcement return to normal, both
+                first-time and repeat detections climb, with repeat growing faster and narrowing the gap.
+              </p>
+            </div>
+          </aside>
+        </div>
+      </div>
+
+      <hr class="my-4" />
+      <div class="text-right source">
+        Sources:
+        <a
+          href="https://www.aadk.gov.my/wp-content/uploads/Statistik_penyalah_guna_dan_penagih_2018_sehingga_Q3-2024_08112024_kemaskini-9pm.pdf"
+          target="_blank" rel="noopener noreferrer"
+        >
+          Statistics Of Drug And Substance Abusers And Addicts By Case Status – Agensi Antidadah Kebangsaan (AADK)
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+        <!-- ACTION CENTRE -->
+<section class="mb-5">
+  <div class="card card-dosm shadow-sm">
+    <div class="card-header d-flex align-items-center justify-content-between">
+      <h5 class="card-title mb-0">Action Centre — What should I do?</h5>
+    </div>
+
+    <div class="card-body">
+      <!-- Tabs -->
+      <ul class="nav nav-tabs" id="acTabs" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" id="ac-struggling-tab" data-toggle="tab" href="#ac-struggling" role="tab" aria-controls="ac-struggling" aria-selected="true">
+            If I’m struggling
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="ac-seeing-tab" data-toggle="tab" href="#ac-seeing" role="tab" aria-controls="ac-seeing" aria-selected="false">
+            If I see someone using
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="ac-parents-tab" data-toggle="tab" href="#ac-parents" role="tab" aria-controls="ac-parents" aria-selected="false">
+            For parents/teachers
+          </a>
+        </li>
+      </ul>
+
+      <!-- Tab panes -->
+      <div class="tab-content pt-3" id="acTabsContent">
+        <!-- Struggling -->
+        <div class="tab-pane fade show active" id="ac-struggling" role="tabpanel" aria-labelledby="ac-struggling-tab">
+          <ul class="mb-3">
+            <li>Talk to a trusted adult, teacher, or doctor.</li>
+            <li>Contact <strong>AADK</strong> for confidential voluntary treatment; <em>no legal action</em> is taken for voluntary clinic admission.</li>
+            <li>For mental-health support, call <strong>MOH Talian HEAL 15555</strong> (8am–12am daily).</li>
+          </ul>
+
+          <div class="btn-group flex-wrap mb-3" role="group" aria-label="Help actions">
+            <a class="btn btn-primary" href="tel:1800222235">Call AADK Hotline 1-800-22-2235</a>
+            <a class="btn btn-outline-primary" href="https://www.aadk.gov.my/" target="_blank" rel="noopener noreferrer">Open AADK / i-CARI</a>
+            <a class="btn btn-secondary" href="tel:15555">Call Talian HEAL 15555</a>
+            <a class="btn btn-outline-secondary" href="https://findahelpline.com/" target="_blank" rel="noopener noreferrer">Find A Helpline</a>
+          </div>
+
+          <div class="alert alert-info mb-0" role="note">
+            If you feel you’re struggling with drugs, you’re not alone. Get help without punishment through AADK’s Voluntary PUSPEN &amp; Cure &amp; Care Clinics. Call 1-800-22-2235. For emotional crisis support, call Talian HEAL 15555 (8am–12am). In an emergency, dial 999.
+          </div>
+        </div>
+
+        <!-- Seeing someone -->
+        <div class="tab-pane fade" id="ac-seeing" role="tabpanel" aria-labelledby="ac-seeing-tab">
+          <ul class="mb-3">
+            <li><strong>Ensure safety first;</strong> call <strong>999</strong> for emergencies.</li>
+            <li>If not an emergency, encourage them to seek help; share the AADK/i-CARI link. For welfare or safeguarding concerns, call <strong>Talian Kasih 15999</strong>.</li>
+            <li>For non-urgent police reports, use <strong>RMP e-Reporting</strong>.</li>
+          </ul>
+
+          <div class="btn-group flex-wrap mb-2" role="group" aria-label="Emergency actions">
+            <a class="btn btn-danger" href="tel:999">Call 999 (MERS)</a>
+            <a class="btn btn-outline-dark" href="https://www.malaysia.gov.my/portal/index" target="_blank" rel="noopener noreferrer">MyGOV</a>
+            <a class="btn btn-outline-dark" href="https://www.civildefence.gov.my/" target="_blank" rel="noopener noreferrer">Civil Defence (APM)</a>
+          </div>
+
+          <div class="btn-group flex-wrap mb-2" role="group" aria-label="Non emergency help">
+            <a class="btn btn-primary" href="https://www.aadk.gov.my/" target="_blank" rel="noopener noreferrer">AADK / i-CARI</a>
+            <a class="btn btn-warning" href="tel:15999">Call Talian Kasih 15999</a>
+            <a class="btn btn-outline-warning" href="https://www.kpwkm.gov.my/" target="_blank" rel="noopener noreferrer">Ministry of Women, Family &amp; Community Development</a>
+          </div>
+
+          <div class="btn-group flex-wrap" role="group" aria-label="Police reports">
+            <a class="btn btn-outline-primary" href="https://ereporting.rmp.gov.my/" target="_blank" rel="noopener noreferrer">RMP e-Reporting</a>
+          </div>
+        </div>
+
+        <!-- Parents/Teachers -->
+        <div class="tab-pane fade" id="ac-parents" role="tabpanel" aria-labelledby="ac-parents-tab">
+          <ul class="mb-3">
+            <li>Know the signs; talk without shaming or blaming.</li>
+            <li>Link students to school counsellors, community programs, and AADK’s prevention resources.</li>
+          </ul>
+
+          <div class="btn-group flex-wrap" role="group" aria-label="Parent/Teacher resources">
+            <a class="btn btn-primary" href="https://www.aadk.gov.my/" target="_blank" rel="noopener noreferrer">AADK Prevention Resources</a>
+            <a class="btn btn-outline-secondary" href="https://findahelpline.com/" target="_blank" rel="noopener noreferrer">Find A Helpline</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- WHAT TO EXPECT IN REHABILITATION -->
+<section class="mb-5">
+  <div class="card card-dosm shadow-sm">
+    <div class="card-header d-flex align-items-center justify-content-between">
+      <h5 class="card-title mb-0">What to expect in rehabilitation (Malaysia-specific)</h5>
+    </div>
+
+    <div class="card-body">
+      <div id="rehab-accordion" role="tablist" aria-multiselectable="true">
+
+        <!-- Voluntary admission -->
+        <div class="card mb-2">
+          <div class="card-header p-0" role="tab" id="rehab-h1">
+            <h6 class="mb-0">
+              <a href="#rehab-c1" class="d-block py-2 px-3" data-toggle="collapse" aria-expanded="true" aria-controls="rehab-c1">
+                Voluntary admission (PUSPEN / Cure &amp; Care Clinics)
+              </a>
+            </h6>
+          </div>
+          <div id="rehab-c1" class="collapse show" role="tabpanel" aria-labelledby="rehab-h1" data-parent="#rehab-accordion">
+            <div class="card-body">
+              Intake, assessment, detox, counselling, medication-assisted treatment (for opiates), vocational training, and aftercare.
+              Typical programme windows are ~6–24 months and tailored to individual needs. Voluntary clients at clinics are
+              <em>not subjected to legal action</em> for presenting themselves.
+              <div class="mt-3 btn-group flex-wrap">
+                <a class="btn btn-primary" href="https://www.aadk.gov.my/" target="_blank" rel="noopener noreferrer">Learn more (AADK)</a>
+                <a class="btn btn-outline-primary"
+   href="https://www.aadk.gov.my/en/rehabilitation-centre-directory/"
+   target="_blank" rel="noopener noreferrer">
+  Centre Locator
+</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Community vs Institution-based -->
+        <div class="card mb-2">
+          <div class="card-header p-0" role="tab" id="rehab-h2">
+            <h6 class="mb-0">
+              <a href="#rehab-c2" class="d-block py-2 px-3 collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="rehab-c2">
+                Community-based vs institution-based treatment &amp; how to find centres
+              </a>
+            </h6>
+          </div>
+          <div id="rehab-c2" class="collapse" role="tabpanel" aria-labelledby="rehab-h2" data-parent="#rehab-accordion">
+            <div class="card-body">
+              Community-based models (Cure &amp; Care Clinics/outreach) versus institution-based treatment (PUSPEN). The right option depends on
+              assessment, substance type, and available support.
+              <div class="mt-3 btn-group flex-wrap">
+                <a class="btn btn-primary" href="https://www.aadk.gov.my/" target="_blank" rel="noopener noreferrer">AADK Service Overview</a>
+<a class="btn btn-outline-primary"
+   href="https://www.aadk.gov.my/en/rehabilitation-centre-directory/"
+   target="_blank" rel="noopener noreferrer">
+  Find Rehab Centres (PUSPEN/CCRC)
+</a>
+<a class="btn btn-outline-primary"
+   href="https://www.aadk.gov.my/en/nada-service-centre-directory/"
+   target="_blank" rel="noopener noreferrer">
+  Find Service Centres (CCSC)
+</a>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div> <!-- /accordion -->
+    </div>
+  </div>
+</section>
+<!-- RELATED AGENCIES & CONTACTS -->
+<section class="mb-5">
+  <div class="card card-dosm shadow-sm">
+    <div class="card-header d-flex align-items-center justify-content-between">
+      <h5 class="card-title mb-0">Related agencies &amp; contacts (verified)</h5>
+    </div>
+
+    <div class="card-body">
+      <!-- AADK -->
+      <div class="mb-4">
+        <h6 class="mb-1">National Anti-Drugs Agency (AADK/NADA)</h6>
+        <p class="mb-2 small text-muted">
+          Services, i-CARI complaints/help, centre locator. Hotline <strong>1-800-22-2235</strong> / <strong>019-626 2233</strong>.
+        </p>
+        <div class="btn-group flex-wrap">
+          <a class="btn btn-primary" href="tel:1800222235">Call 1-800-22-2235</a>
+          <a class="btn btn-outline-primary" href="tel:+60196262233">Call 019-626 2233</a>
+          <a class="btn btn-secondary" href="https://www.aadk.gov.my/" target="_blank" rel="noopener noreferrer">Open AADK Site</a>
+          <a class="btn btn-outline-secondary" href="https://www.aadk.gov.my/" target="_blank" rel="noopener noreferrer">i-CARI Portal</a>
+        </div>
+      </div>
+      <hr>
+
+      <!-- MOH HEAL -->
+      <div class="mb-4">
+        <h6 class="mb-1">Ministry of Health — Talian HEAL 15555</h6>
+        <p class="mb-2 small text-muted">Mental-health crisis tele-counselling (8am–12am daily).</p>
+        <div class="btn-group flex-wrap">
+          <a class="btn btn-success" href="tel:15555">Call 15555</a>
+          <a class="btn btn-outline-success" href="https://findahelpline.com/" target="_blank" rel="noopener noreferrer">Find A Helpline</a>
+        </div>
+      </div>
+      <hr>
+
+      <!-- Talian Kasih -->
+      <div class="mb-4">
+        <h6 class="mb-1">Department of Social Welfare — Talian Kasih 15999</h6>
+        <p class="mb-2 small text-muted">24/7 social welfare help. WhatsApp: 019-261 5999.</p>
+        <div class="btn-group flex-wrap">
+          <a class="btn btn-warning" href="tel:15999">Call 15999</a>
+          <a class="btn btn-outline-warning" href="https://wa.me/60192615999" target="_blank" rel="noopener noreferrer">WhatsApp 019-261 5999</a>
+          <a class="btn btn-outline-warning" href="https://www.kpwkm.gov.my/" target="_blank" rel="noopener noreferrer">Ministry of Women, Family &amp; Community Development</a>
+        </div>
+      </div>
+      <hr>
+
+      <!-- Emergency & Police -->
+      <div class="mb-2">
+        <h6 class="mb-1">MERS 999 (emergencies) &amp; RMP e-Reporting (non-urgent reports)</h6>
+        <div class="btn-group flex-wrap">
+          <a class="btn btn-danger" href="tel:999">Call 999</a>
+          <a class="btn btn-outline-primary" href="https://www.malaysia.gov.my/portal/index" target="_blank" rel="noopener noreferrer">MyGOV</a>
+          <a class="btn btn-outline-primary" href="https://ereporting.rmp.gov.my/" target="_blank" rel="noopener noreferrer">RMP e-Reporting</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+    <footer class="footer-note">
+      <div class="container-xl small text-muted">
+        Author: Lim Yue Syuen 34003568
+      </div>
+    </footer>
+
+    <!-- Vega embeds -->
+    <script>
+      vegaEmbed(
+        "#trend-vis",
+        "https://raw.githubusercontent.com/lemon040805/34003568_w10/main/js/drug_trend.vg.json",
+        { mode: "vega-lite", actions: false }
+      ).then((res) => {
+        const host = document.getElementById("trend-slider-host");
+        const bindings = res?.view
+          ?.container()
+          ?.querySelector(".vega-bindings");
+        if (bindings && host) host.appendChild(bindings);
+      });
+
+      vegaEmbed(
+        "#map-vis",
+        "https://raw.githubusercontent.com/lemon040805/34003568_w10/main/js/drug_over_states.vg.json",
+        { mode: "vega-lite", actions: false }
+      ).then((res) => {
+        const host = document.getElementById("map-slider-host");
+        const bindings = res?.view
+          ?.container()
+          ?.querySelector(".vega-bindings");
+        if (bindings && host) host.appendChild(bindings);
+      });
+
+      vegaEmbed(
+        "#bar-vis",
+        "https://raw.githubusercontent.com/lemon040805/34003568_w10/main/js/drug_categories.vg.json",
+        { mode: "vega-lite", actions: false }
+      ).then((res) => {
+        const host = document.getElementById("bar-slider-host");
+        const bindings = res?.view
+          ?.container()
+          ?.querySelector(".vega-bindings");
+        if (bindings && host) host.appendChild(bindings);
+      });
+
+      // Sex & Age Groups
+      vegaEmbed(
+        "#sex-age-vis",
+        "https://raw.githubusercontent.com/lemon040805/34003568_w10/main/js/drug_sex_age_groups.vg.json",
+        { mode: "vega-lite", actions: false }
+      ).then((res) => {
+        const host = document.getElementById("sex-age-slider-host");
+        const bindings = res?.view
+          ?.container()
+          ?.querySelector(".vega-bindings");
+        if (bindings && host) host.appendChild(bindings);
+      });
+
+      // Case Status (with year selection)
+      vegaEmbed(
+        "#status-vis",
+        "https://raw.githubusercontent.com/lemon040805/34003568_w10/main/js/drug_case_status.vg.json",
+        { mode: "vega-lite", actions: false }
+      ).then((res) => {
+        const host = document.getElementById("status-slider-host");
+        const bindings = res?.view
+          ?.container()
+          ?.querySelector(".vega-bindings");
+        if (bindings && host) host.appendChild(bindings);
+      });
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const root = document.querySelector(".overview-tiles");
+        if (!root) return;
+
+        function closeAll() {
+          root.querySelectorAll('.tooltip[data-open="true"]').forEach((tt) => {
+            tt.dataset.open = "false";
+            tt.setAttribute("data-open", "false");
+          });
+          root.querySelectorAll('.info[aria-expanded="true"]').forEach((b) => {
+            b.setAttribute("aria-expanded", "false");
+          });
+        }
+
+        // Open/close when clicking the ⓘ buttons
+        root.addEventListener("click", (ev) => {
+          const btn = ev.target.closest(".info");
+          if (!btn) return;
+
+          const tt = document.getElementById(btn.getAttribute("aria-controls"));
+          if (!tt) return;
+
+          const willOpen = tt.dataset.open !== "true";
+          closeAll();
+          if (willOpen) {
+            tt.dataset.open = "true";
+            tt.setAttribute("data-open", "true");
+            tt.classList.add("show");
+            tt.setAttribute("aria-hidden", "false");
+            btn.setAttribute("aria-expanded", "true");
+          }
+        });
+
+        // Click outside closes
+        document.addEventListener(
+          "click",
+          (ev) => {
+            if (!root.contains(ev.target)) closeAll();
+          },
+          true
+        );
+
+        // Esc closes
+        document.addEventListener("keydown", (ev) => {
+          if (ev.key === "Escape") closeAll();
+        });
+      });
+    </script>
+  </body>
+    </html>

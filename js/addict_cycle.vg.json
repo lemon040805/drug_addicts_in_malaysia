@@ -1,0 +1,30 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 500,
+  "height": 500,
+  "data": {
+    "values": [
+      {"stage": "Internal frustration", "order": 0, "value": 1 },
+      {"stage": "Fantasizing", "order": 1, "value": 1 },
+      {"stage": "Obsessing", "order": 2, "value": 1 },
+      {"stage": "Substance abuse", "order": 3, "value": 1 },
+      {"stage": "Loss of control", "order": 4, "value": 1 },
+      {"stage": "Guilt over use", "order": 5, "value": 1 },
+      {"stage": "Cessation of use", "order": 6, "value": 1 },
+      {"stage": "Passage of time", "order": 7, "value": 1 }
+    ]
+  },
+  "layer": [{
+  "mark": {"type": "arc", "innerRadius": 80, "outerRadius": 100},
+  "encoding": {
+    "theta": {"field": "value", "type": "quantitative"},
+    "color": {"field": "stage", "type": "nominal"}
+  }
+  },
+  {
+    "mark": {"type": "text", "radius": 90},
+    "encoding": {
+      "text": {"field": "stage", "type": "nominal"}
+    }
+  }]
+}

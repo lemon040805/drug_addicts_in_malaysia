@@ -1,0 +1,143 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 765,
+  "height": 250,
+  "data": {
+    "url": "https://raw.githubusercontent.com/lemon040805/34003568_w10/refs/heads/main/data/drug_trend.csv"
+  },
+  "params": [
+    {
+      "name": "Metric",
+      "value": "YoY Growth (%)",
+      "bind": {
+        "input": "select",
+        "options": [
+          "Real (per 100k)",
+          "YoY Growth (%)",
+          "YoY Growth (Real)"
+        ],
+        "name": "Show: "
+      }
+    }
+  ],
+  "transform": [
+    {
+      "calculate": "toNumber(datum.Rate_per_100000)",
+      "as": "RateNum"
+    },
+    {
+      "aggregate": [
+        {
+          "op": "sum",
+          "field": "RateNum",
+          "as": "Rate"
+        }
+      ],
+      "groupby": [
+        "Year"
+      ]
+    },
+    {
+      "window": [
+        {
+          "op": "lag",
+          "field": "Rate",
+          "as": "Rate_prev"
+        }
+      ],
+      "sort": [
+        {
+          "field": "Year",
+          "order": "ascending"
+        }
+      ]
+    },
+    {
+      "calculate": "datum.Rate_prev == null ? null : datum.Rate - datum.Rate_prev",
+      "as": "YoY_change"
+    },
+    {
+      "calculate": "datum.Rate_prev == null ? null : (datum.Rate - datum.Rate_prev) / datum.Rate_prev",
+      "as": "YoY_pct"
+    },
+    {
+      "calculate": "Metric == 'Real (per 100k)' ? datum.Rate : (Metric == 'YoY Growth (%)' ? datum.YoY_pct : datum.YoY_change)",
+      "as": "MetricValue"
+    },
+    {
+      "calculate": "Metric == 'Real (per 100k)' ? 'Real (per 100k)' : (Metric == 'YoY Growth (%)' ? 'YoY %' : 'YoY Δ')",
+      "as": "MetricLabel"
+    },
+    {
+      "filter": "datum.MetricValue != null && isFinite(datum.MetricValue)"
+    }
+  ],
+  "mark": {
+    "type": "area",
+    "line": {
+      "color": "#dc2626"
+    },
+    "color": {
+      "gradient": "linear",
+      "x1": 1,
+      "y1": 1,
+      "x2": 1,
+      "y2": 0,
+      "stops": [
+        {
+          "offset": 0,
+          "color": "white"
+        },
+        {
+          "offset": 1,
+          "color": "#dc2626"
+        }
+      ]
+    }
+  },
+  "encoding": {
+    "x": {
+      "field": "Year",
+      "type": "quantitative",
+      "scale": {
+        "nice": false
+      },
+      "axis": {
+        "title": null,
+        "format": "d"
+      }
+    },
+    "y": {
+      "field": "MetricValue",
+      "type": "quantitative",
+      "axis": {
+        "title": "",
+        "labelExpr": "Metric == 'YoY Growth (%)' ? format(datum.value, '.1%') : format(datum.value, ',.0f')"
+      }
+    },
+    "tooltip": [
+      {
+        "field": "Year",
+        "type": "quantitative",
+        "format": "d",
+        "title": "Year"
+      },
+      {
+        "field": "MetricLabel",
+        "type": "nominal",
+        "title": "Metric"
+      },
+      {
+        "field": "MetricValue",
+        "type": "quantitative",
+        "title": "Value",
+        "format": ".3~g"
+      }
+    ]
+  },
+  "config": {
+    "view": {
+      "stroke": null
+    }
+  }
+}

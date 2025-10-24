@@ -1,0 +1,229 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 840,
+  "height": 600,
+  "projection": {
+    "type": "mercator"
+  },
+  "params": [
+    {
+      "name": "Year_selection",
+      "value": 2024,
+      "bind": {
+        "input": "range",
+        "min": 2018,
+        "max": 2024,
+        "step": 1,
+        "name": "Year:  "
+      }
+    }
+  ],
+  "layer": [
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/lemon040805/34003568_w10/refs/heads/main/data/ne_10m.topojson",
+        "format": {
+          "type": "topojson",
+          "feature": "ne_10m_graticules_5"
+        }
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": null,
+        "stroke": "lightgray"
+      }
+    },
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/lemon040805/34003568_w10/refs/heads/main/data/ne_10m.topojson",
+        "format": {
+          "type": "topojson",
+          "feature": "ne_10m_admin_1_states_provinces"
+        }
+      },
+      "transform": [
+        {
+          "calculate": "datum.properties.name === 'Kuala Lumpur' ? 'W.P. Kuala Lumpur' : datum.properties.name === 'Putrajaya' ? 'W.P. Putrajaya' : datum.properties.name === 'Labuan' ? 'W.P. Labuan' : datum.properties.name",
+          "as": "state_display"
+        },
+        {
+          "calculate": "'Data is not available in ' + datum.state_display",
+          "as": "note"
+        },
+        {
+          "calculate": "'Data is not available in ' + datum.state_display + ', ' + datum.properties.admin",
+          "as": "note"
+        }
+      ],
+      "mark": {
+        "type": "geoshape",
+        "fill": "#ddd",
+        "stroke": "white",
+        "strokeWidth": 1
+      },
+      "encoding": {
+        "tooltip": {
+          "field": "note"
+        }
+      }
+    },
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/lemon040805/34003568_w10/refs/heads/main/data/drug_over_states.csv"
+      },
+      "transform": [
+        {
+          "calculate": "datum.State === 'WP Kuala Lumpur' ? 'Kuala Lumpur' : datum.State === 'WP Labuan' ? 'Labuan' : datum.State === 'WP Putrajaya' ? 'Putrajaya' : datum.State",
+          "as": "state_key"
+        },
+        {
+          "lookup": "state_key",
+          "from": {
+            "data": {
+              "url": "https://raw.githubusercontent.com/lemon040805/34003568_w10/refs/heads/main/js/MalaysiaMapWithGraticules.topojson",
+              "format": {
+                "type": "topojson",
+                "feature": "ne_10m_admin_1_states_provinces"
+              }
+            },
+            "key": "properties.name"
+          },
+          "as": "geo"
+        },
+        {
+          "filter": "datum.Year == Year_selection"
+        }
+      ],
+      "mark": {
+        "type": "geoshape",
+        "stroke": "#fff",
+        "strokeWidth": 0.5
+      },
+      "encoding": {
+        "shape": {
+          "field": "geo",
+          "type": "geojson"
+        },
+        "color": {
+          "field": "Count",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              100,
+              1000
+            ],
+            "nice": true,
+            "scheme": "reds"
+          },
+          "legend": {
+            "title": "Drug Addicts per 100,000",
+            "format": "d",
+            "orient": "bottom",
+            "direction": "horizontal"
+          }
+        },
+        "tooltip": [
+          {
+            "field": "Year",
+            "type": "quantitative"
+          },
+          {
+            "field": "State",
+            "type": "nominal"
+          },
+          {
+            "field": "Count",
+            "title": "Drug Addicts per 100k",
+            "type": "quantitative"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/lemon040805/34003568_w10/main/data/drug_over_states.csv"
+      },
+      "transform": [
+        {
+          "calculate": "datum.State === 'WP Kuala Lumpur' ? 'W.P. Kuala Lumpur' : datum.State === 'WP Putrajaya' ? 'W.P. Putrajaya' : datum.State === 'WP Labuan' ? 'W.P. Labuan' : datum.State",
+          "as": "state_display"
+        },
+        {
+          "lookup": "state_display",
+          "from": {
+            "data": {
+              "url": "https://raw.githubusercontent.com/lemon040805/34003568_w10/main/data/malaysia_state_centroids.csv"
+            },
+            "key": "state",
+            "fields": [
+              "lat",
+              "lon"
+            ]
+          }
+        },
+        {
+          "filter": "datum.Year == Year_selection"
+        },
+        {
+          "calculate": "toNumber(datum.Count)",
+          "as": "CountNum"
+        },
+        {
+          "window": [
+            {
+              "op": "rank",
+              "as": "ranking"
+            }
+          ],
+          "sort": [
+            {
+              "field": "CountNum",
+              "order": "descending"
+            }
+          ]
+        },
+        {
+          "filter": "datum.ranking <= 3"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "fontStyle": "italic",
+        "fontWeight": "bold"
+      },
+      "encoding": {
+        "text": {
+          "field": "state_display",
+          "type": "nominal"
+        },
+        "color": {
+          "value": "#222"
+        },
+        "longitude": {
+          "field": "lon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "lat",
+          "type": "quantitative"
+        },
+        "tooltip": [
+          {
+            "field": "Year",
+            "type": "quantitative"
+          },
+          {
+            "field": "state_display",
+            "title": "State",
+            "type": "nominal"
+          },
+          {
+            "field": "Count",
+            "title": "Drug Addicts per 100k",
+            "type": "quantitative"
+          }
+        ]
+      }
+    }
+  ]
+}

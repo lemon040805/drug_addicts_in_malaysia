@@ -1,0 +1,101 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 640,
+    "height": 300,
+    "data": {
+        "url": "https://raw.githubusercontent.com/lemon040805/34003568_w10/refs/heads/main/data/drug_categories.csv"
+    },
+    "params": [
+        {
+            "name": "Year_selection",
+            "value": 2024,
+            "bind": {
+                "input": "range",
+                "min": 2018,
+                "max": 2024,
+                "step": 1,
+                "name": "Year:  "
+            }
+        }
+    ],
+    "mark": {
+        "type": "bar",
+        "stroke": "black",
+        "strokeWidth": 1
+    },
+    "transform": [
+        {
+            "filter": "datum.Year == Year_selection"
+        },
+        {
+            "calculate": "toNumber(datum.Count)",
+            "as": "val"
+        },
+        {
+            "window": [
+                {
+                    "op": "rank",
+                    "as": "ranking"
+                }
+            ],
+            "sort": [
+                {
+                    "field": "val",
+                    "order": "descending"
+                }
+            ]
+        },
+        {
+            "filter": "datum.ranking <= 5"
+        }
+    ],
+    "encoding": {
+        "x": {
+            "field": "Count",
+            "type": "quantitative",
+            "title": "Drug Use",
+            "axis": {
+                "labelFontSize": 11,
+                "titleFontSize": 13,
+                "titlePadding": 20
+            }
+        },
+        "y": {
+            "field": "DrugCat",
+            "type": "ordinal",
+            "title": null,
+            "sort": {
+                "field": "Count",
+                "order": "descending"
+            },
+            "axis": {
+                "labelFontSize": 11,
+                "labelLimit": 300
+            }
+        },
+        "color": {
+            "condition": {
+                "test": "datum.ranking == 1",
+                "value": "#dc2626"
+            },
+            "value": "#ddd"
+        },
+        "tooltip": [
+            {
+                "field": "Year",
+                "type": "quantitative"
+            },
+            {
+                "field": "DrugCat",
+                "title": "Type of Drug",
+                "type": "nominal"
+            },
+            {
+                "field": "Count",
+                "title": "Drug Use",
+                "type": "quantitative",
+                "format": ","
+            }
+        ]
+    }
+}

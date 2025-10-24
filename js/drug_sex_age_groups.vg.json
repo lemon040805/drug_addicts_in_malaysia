@@ -1,0 +1,136 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "vconcat": [
+        {
+            "data": {
+                "url": "https://raw.githubusercontent.com/lemon040805/34003568_w10/main/data/drug_over_age_groups.csv"
+            },
+            "facet": {
+                "field": "AgeGroup",
+                "type": "nominal",
+                "title": "Age Group",
+                "sort": [
+                    "Children (<15)",
+                    "Youth (15–24)",
+                    "Young Adults (25–34)",
+                    "Middle-aged Adults (35–54)",
+                    "Older Adults (55+)"
+                ],
+                "header": {
+                    "titleFontSize": 16,
+                    "labelFontSize": 13
+                }
+            },
+            "spec": {
+                "width": 215,
+                "height": 140,
+                "mark": {
+                    "type": "line",
+                    "point": true
+                },
+                "encoding": {
+                    "x": {
+                        "field": "Year",
+                        "type": "ordinal",
+                        "title": ""
+                    },
+                    "y": {
+                        "field": "RatePer100k",
+                        "type": "quantitative",
+                        "title": ""
+                    },
+                    "color": {
+                        "condition": {
+                            "test": "datum.AgeGroup === 'Young Adults (25–34)'",
+                            "value": "#dc2626"
+                        },
+                        "value": "#ddd",
+                        "legend": null
+                    },
+                    "tooltip": [
+                        {
+                            "field": "Year",
+                            "type": "ordinal"
+                        },
+                        {
+                            "field": "AgeGroup",
+                            "title": "Age group"
+                        },
+                        {
+                            "field": "RatePer100k",
+                            "type": "quantitative",
+                            "format": ".1f"
+                        }
+                    ]
+                }
+            },
+            "resolve": {
+                "scale": {
+                    "y": "shared"
+                }
+            }
+        },
+        {
+            "data": {
+                "url": "https://raw.githubusercontent.com/lemon040805/34003568_w10/main/data/drug_over_sex.csv"
+            },
+            "facet": {
+                "field": "Sex",
+                "type": "nominal",
+                "title": "Sex",
+                "header": {
+                    "titleFontSize": 16,
+                    "labelFontSize": 13
+                }
+            },
+            "spec": {
+                "width": 570,
+                "height": 140,
+                "mark": {
+                    "type": "line",
+                    "point": true
+                },
+                "encoding": {
+                    "x": {
+                        "field": "Year",
+                        "type": "ordinal",
+                        "title": ""
+                    },
+                    "y": {
+                        "field": "RatePer100k",
+                        "type": "quantitative",
+                        "title": ""
+                    },
+                    "color": {
+                        "condition": {
+                            "test": "datum.Sex === 'Male'",
+                            "value": "#dc2626"
+                        },
+                        "value": "#dddddd",
+                        "legend": null
+                    },
+                    "tooltip": [
+                        {
+                            "field": "Year",
+                            "type": "ordinal"
+                        },
+                        {
+                            "field": "Sex"
+                        },
+                        {
+                            "field": "RatePer100k",
+                            "type": "quantitative",
+                            "format": ".1f",
+                            "title": "Drug Addicts per 100k"
+                        }
+                    ]
+                }
+            },
+            "resolve": {
+                "scale": {
+                    "y": "shared"
+                }
+            }
+        }
+    ]
+}

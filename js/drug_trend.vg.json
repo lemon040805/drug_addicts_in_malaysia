@@ -1,7 +1,7 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "width": 765,
-  "height": 250,
+  "width": 650,
+  "height": 244,
   "data": {
     "url": "https://raw.githubusercontent.com/lemon040805/34003568_w10/refs/heads/main/data/drug_trend.csv"
   },
@@ -104,7 +104,8 @@
       },
       "axis": {
         "title": null,
-        "format": "d"
+        "format": "d",
+        "labelFontSize": 12.02
       }
     },
     "y": {
@@ -112,6 +113,7 @@
       "type": "quantitative",
       "axis": {
         "title": "",
+        "labelFontSize": 12.02,
         "labelExpr": "Metric == 'YoY Growth (%)' ? format(datum.value, '.1%') : format(datum.value, ',.0f')"
       }
     },

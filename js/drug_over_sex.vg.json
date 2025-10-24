@@ -1,0 +1,69 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data": {
+        "url": "https://raw.githubusercontent.com/lemon040805/34003568_w10/main/data/drug_over_sex.csv"
+    },
+    "facet": {
+        "field": "Sex",
+        "type": "nominal",
+        "title": "",
+        "header": {
+            "labelFontSize": 14,
+            "labelFontWeight": "bold"
+        }
+    },
+    "spec": {
+        "width": 310,
+        "height": 140,
+        "mark": {
+            "type": "line",
+            "point": true
+        },
+        "encoding": {
+            "x": {
+                "field": "Year",
+                "type": "ordinal",
+                "axis": {
+                    "title": null,
+                    "labelFontSize": 12.02
+                }
+            },
+            "y": {
+                "field": "RatePer100k",
+                "type": "quantitative",
+                "axis": {
+                    "title": null,
+                    "labelFontSize": 12.02
+                }
+            },
+            "color": {
+                "condition": {
+                    "test": "datum.Sex === 'Male'",
+                    "value": "#dc2626"
+                },
+                "value": "#dddddd",
+                "legend": null
+            },
+            "tooltip": [
+                {
+                    "field": "Year",
+                    "type": "ordinal"
+                },
+                {
+                    "field": "Sex"
+                },
+                {
+                    "field": "RatePer100k",
+                    "type": "quantitative",
+                    "format": ".1f",
+                    "title": "Drug Addicts per 100k"
+                }
+            ]
+        }
+    },
+    "resolve": {
+        "scale": {
+            "y": "shared"
+        }
+    }
+}

@@ -1,7 +1,7 @@
 {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "width": 640,
-    "height": 300,
+    "width": 500,
+    "height": 210,
     "data": {
         "url": "https://raw.githubusercontent.com/lemon040805/34003568_w10/refs/heads/main/data/drug_categories.csv"
     },
@@ -54,9 +54,10 @@
             "field": "Count",
             "type": "quantitative",
             "title": "Drug Use",
+            "scale": { "domain": [0, 120000], "clamp": true },
             "axis": {
-                "labelFontSize": 11,
-                "titleFontSize": 13,
+                "labelFontSize": 12.02,
+                "titleFontSize": 14,
                 "titlePadding": 20
             }
         },
@@ -69,7 +70,7 @@
                 "order": "descending"
             },
             "axis": {
-                "labelFontSize": 11,
+                "labelFontSize": 12.02,
                 "labelLimit": 300
             }
         },
@@ -87,7 +88,7 @@
             },
             {
                 "field": "DrugCat",
-                "title": "Type of Drug",
+                "title": "Drug Category",
                 "type": "nominal"
             },
             {

@@ -8,18 +8,14 @@
             "facet": {
                 "field": "AgeGroup",
                 "type": "nominal",
-                "title": "Age Group",
+                "title": "",
                 "sort": [
                     "Children (<15)",
                     "Youth (15–24)",
                     "Young Adults (25–34)",
                     "Middle-aged Adults (35–54)",
                     "Older Adults (55+)"
-                ],
-                "header": {
-                    "titleFontSize": 16,
-                    "labelFontSize": 13
-                }
+                ]
             },
             "spec": {
                 "width": 215,

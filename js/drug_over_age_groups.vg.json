@@ -1,7 +1,7 @@
 {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
     "data": {
-        "url": "https://raw.githubusercontent.com/lemon040805/34003568_w10/main/data/drug_over_age_groups.csv"
+        "url": "https://raw.githubusercontent.com/lemon040805/drug_addicts_in_malaysia/refs/heads/main/data/drug_over_age_groups.csv"
     },
     "facet": {
         "field": "AgeGroup",

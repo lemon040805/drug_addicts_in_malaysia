@@ -16,7 +16,7 @@
         }
     ],
     "data": {
-        "url": "https://raw.githubusercontent.com/lemon040805/34003568_w10/refs/heads/main/data/drug_case_status.csv"
+        "url": "https://raw.githubusercontent.com/lemon040805/drug_addicts_in_malaysia/refs/heads/main/data/drug_case_status.csv"
     },
     "transform": [
         {

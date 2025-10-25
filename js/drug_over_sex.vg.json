@@ -1,69 +1,186 @@
 {
-    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "data": {
-        "url": "https://raw.githubusercontent.com/lemon040805/34003568_w10/main/data/drug_over_sex.csv"
-    },
-    "facet": {
-        "field": "Sex",
-        "type": "nominal",
-        "title": "",
-        "header": {
-            "labelFontSize": 14,
-            "labelFontWeight": "bold"
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 655,
+  "height":349,
+  "data": {
+    "url": "https://raw.githubusercontent.com/lemon040805/drug_addicts_in_malaysia/main/data/drug_over_sex.csv"
+  },
+  "layer": [
+    {
+      "transform": [
+        {"fold": ["Male", "Female"], "as": ["Sex", "RatePer100k"]},
+        {
+          "aggregate": [
+            {"op": "min", "field": "RatePer100k", "as": "minRate"},
+            {"op": "max", "field": "RatePer100k", "as": "maxRate"}
+          ],
+          "groupby": ["Sex"]
         }
+      ],
+      "mark": {"type": "rect", "opacity": 0.10},
+      "encoding": {
+        "x": {"field": "minRate", "type": "quantitative", "scale": {"zero": false}, "title": "Rate per 100k"},
+        "x2": {"field": "maxRate"},
+        "y": {"value": 0},
+        "y2": {"value": 349},
+        "color": {
+          "field": "Sex",
+          "type": "nominal",
+          "legend": null,
+          "scale": {"domain": ["Male","Female"], "range": ["#dc2626","#9e9e9e"]}
+        }
+      }
     },
-    "spec": {
-        "width": 310,
-        "height": 140,
-        "mark": {
-            "type": "line",
-            "point": true
+    {
+      "transform": [
+        {"fold": ["Male", "Female"], "as": ["Sex", "RatePer100k"]},
+        {
+          "aggregate": [
+            {"op": "min", "field": "RatePer100k", "as": "minRate"},
+            {"op": "max", "field": "RatePer100k", "as": "maxRate"}
+          ],
+          "groupby": ["Sex"]
+        }
+      ],
+      "mark": {"type": "rule", "strokeDash": [4, 4], "opacity": 0.35},
+      "encoding": {
+        "x": {"field": "minRate", "type": "quantitative"},
+        "y": {"value": 0},
+        "y2": {"value": 349},
+        "color": {
+          "field": "Sex",
+          "type": "nominal",
+          "legend": null,
+          "scale": {"domain": ["Male","Female"], "range": ["#dc2626","#9e9e9e"]}
         },
-        "encoding": {
-            "x": {
-                "field": "Year",
-                "type": "ordinal",
-                "axis": {
-                    "title": null,
-                    "labelFontSize": 12.02
-                }
-            },
-            "y": {
-                "field": "RatePer100k",
-                "type": "quantitative",
-                "axis": {
-                    "title": null,
-                    "labelFontSize": 12.02
-                }
-            },
-            "color": {
-                "condition": {
-                    "test": "datum.Sex === 'Male'",
-                    "value": "#dc2626"
-                },
-                "value": "#dddddd",
-                "legend": null
-            },
-            "tooltip": [
-                {
-                    "field": "Year",
-                    "type": "ordinal"
-                },
-                {
-                    "field": "Sex"
-                },
-                {
-                    "field": "RatePer100k",
-                    "type": "quantitative",
-                    "format": ".1f",
-                    "title": "Drug Addicts per 100k"
-                }
-            ]
-        }
+        "tooltip": [
+          {"field": "Sex", "type": "nominal"},
+          {"field": "minRate", "type": "quantitative", "title": "Min"},
+          {"field": "maxRate", "type": "quantitative", "title": "Max"}
+        ]
+      }
     },
-    "resolve": {
-        "scale": {
-            "y": "shared"
+    {
+      "transform": [
+        {"fold": ["Male", "Female"], "as": ["Sex", "RatePer100k"]},
+        {
+          "aggregate": [
+            {"op": "min", "field": "RatePer100k", "as": "minRate"},
+            {"op": "max", "field": "RatePer100k", "as": "maxRate"}
+          ],
+          "groupby": ["Sex"]
         }
+      ],
+      "mark": {"type": "rule", "strokeDash": [4, 4], "opacity": 0.35},
+      "encoding": {
+        "x": {"field": "maxRate", "type": "quantitative"},
+        "y": {"value": 0},
+        "y2": {"value": 349},
+        "color": {
+          "field": "Sex",
+          "type": "nominal",
+          "legend": null,
+          "scale": {"domain": ["Male","Female"], "range": ["#dc2626","#9e9e9e"]}
+        }
+      }
+    },
+    {
+      "transform": [
+        {"calculate": "min(datum.Male, datum.Female)", "as": "x1"},
+        {"calculate": "max(datum.Male, datum.Female)", "as": "x2"},
+        {"calculate": "abs(datum.Male - datum.Female)", "as": "Gap"}
+      ],
+      "mark": {"type": "rule", "strokeWidth": 2, "opacity": 0.6, "color": "#000000"},
+      "encoding": {
+        "y": {"field": "Year", "type": "ordinal", "sort": "ascending", "title": ""},
+        "x": {"field": "x1", "type": "quantitative", "title": "Rate per 100k", "scale": {"zero": false}, "axis": { "titlePadding": 12 } },
+        "x2": {"field": "x2"},
+        "tooltip": [
+          {"field": "Year", "type": "ordinal"},
+          {"field": "Male", "type": "quantitative", "title": "Male (per 100k)"},
+          {"field": "Female", "type": "quantitative", "title": "Female (per 100k)"},
+          {"field": "Gap", "type": "quantitative", "title": "Gap (Male−Female)"}
+        ]
+      }
+    },
+    {
+      "transform": [
+        {"fold": ["Male", "Female"], "as": ["Sex", "RatePer100k"]},
+        {"calculate": "abs(datum.Male - datum.Female)", "as": "Gap"}
+      ],
+      "mark": {"type": "point", "filled": true, "size": 85},
+      "encoding": {
+        "y": {"field": "Year", "type": "ordinal", "sort": "ascending"},
+        "x": {"field": "RatePer100k", "type": "quantitative", "scale": {"zero": false}},
+        "color": {
+          "field": "Sex",
+          "type": "nominal",
+          "title": "Sex",
+          "scale": {"domain": ["Male","Female"], "range": ["#d32f2f","#9e9e9e"]}
+        },
+        "opacity": {
+          "condition": {"test": "datum.Sex=='Male'", "value": 1},
+          "value": 0.5
+        },
+        "tooltip": [
+          {"field": "Year", "type": "ordinal"},
+          {"field": "Sex", "type": "nominal"},
+          {"field": "RatePer100k", "type": "quantitative", "title": "Rate per 100k"},
+          {"field": "Gap", "type": "quantitative", "title": "Gap (Male−Female)"}
+        ]
+      }
+    },
+    {
+      "transform": [
+        {"fold": ["Male", "Female"], "as": ["Sex", "RatePer100k"]},
+        {
+          "joinaggregate": [
+            {"op": "max", "field": "RatePer100k", "as": "maxRate"},
+            {"op": "min", "field": "RatePer100k", "as": "minRate"}
+          ],
+          "groupby": ["Sex"]
+        },
+        {"calculate": "datum.RatePer100k == datum.maxRate", "as": "isMax"},
+        {"calculate": "datum.RatePer100k == datum.minRate", "as": "isMin"},
+        {"filter": "datum.isMax || datum.isMin"},
+        {"calculate": "datum.Sex + ' ' + (datum.isMax ? 'max: ' : 'min: ') + datum.RatePer100k", "as": "label"},
+        {"calculate": "datum.isMax ? 8 : -8", "as": "dx"}
+      ],
+      "mark": {"type": "text", "fontSize": 12, "fontWeight": "bold"},
+      "encoding": {
+        "y": {"field": "Year", "type": "ordinal", "sort": "ascending", "bandPosition": 0.25},
+        "x": {"field": "RatePer100k", "type": "quantitative"},
+        "text": {"field": "label"},
+        "color": {
+          "field": "Sex",
+          "type": "nominal",
+          "legend": null,
+          "scale": {"domain": ["Male","Female"], "range": ["#dc2626","#9e9e9e"]}
+        },
+        "dx": {"field": "dx"},
+        "align": {"value": "left"},
+        "baseline": {"value": "bottom"}
+      }
+    },
+    {
+      "transform": [
+        {"calculate": "abs(datum.Male - datum.Female)", "as": "Gap"},
+        {"calculate": "(datum.Male + datum.Female)/2", "as": "midX"},
+        {"filter": "toNumber(datum.Year) == 2024"},
+        {"calculate": "'Gap 2024: ' + datum.Gap", "as": "gapLabel"}
+      ],
+      "mark": {"type": "text", "fontWeight": "bold", "tooltip": true},
+      "encoding": {
+        "y": {"field": "Year", "type": "ordinal", "sort": "ascending", "bandPosition": 0.2},
+        "x": {"field": "midX", "type": "quantitative"},
+        "text": {"field": "gapLabel"},
+        "align": {"value": "center"},
+        "baseline": {"value": "bottom"}
+      }
     }
+  ],
+  "config": {
+    "axis": {"labelFontSize": 12.02, "titleFontSize": 14},
+    "legend": {"orient": "bottom"}
+  }
 }

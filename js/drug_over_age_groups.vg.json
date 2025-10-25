@@ -15,8 +15,8 @@
             "Older Adults (55+)"
         ],
         "header": {
-            "titleFontSize": 16,
-            "labelFontSize": 13
+            "labelFontSize": 14,
+            "labelFontWeight": "bold"
         }
     },
     "spec": {

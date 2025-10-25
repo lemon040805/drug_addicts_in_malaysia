@@ -57,7 +57,8 @@
                 {
                     "field": "RatePer100k",
                     "type": "quantitative",
-                    "format": ".1f"
+                    "format": ".1f",
+                    "title": "Rate per 100k"
                 }
             ]
         }

@@ -700,11 +700,11 @@
       });
 
     // Embed charts
-    embed("#trend-vis", "../js/drug_trend.vg.json", "trend-slider-host");
-    embed("#map-vis", "../js/drug_over_states.vg.json", "map-slider-host");
-    embed("#bar-vis", "../js/drug_categories.vg.json", "bar-slider-host");
-    embed("#age-vis", "../js/drug_over_age_groups.vg.json", "age-slider-host");
-    embed("#sex-vis", "../js/drug_over_sex.vg.json", "sex-slider-host");
+    embed("#trend-vis", "https://raw.githubusercontent.com/lemon040805/drug_addicts_in_malaysia/refs/heads/main/js/drug_case_status.vg.json", "trend-slider-host");
+    embed("#map-vis", "https://raw.githubusercontent.com/lemon040805/drug_addicts_in_malaysia/refs/heads/main/js/drug_over_states.vg.json", "map-slider-host");
+    embed("#bar-vis", "https://raw.githubusercontent.com/lemon040805/drug_addicts_in_malaysia/refs/heads/main/js/drug_categories.vg.json", "bar-slider-host");
+    embed("#age-vis", "https://raw.githubusercontent.com/lemon040805/drug_addicts_in_malaysia/refs/heads/main/js/drug_over_age_groups.vg.json", "age-slider-host");
+    embed("#sex-vis", "https://raw.githubusercontent.com/lemon040805/drug_addicts_in_malaysia/refs/heads/main/js/drug_over_sex.vg.json", "sex-slider-host");
 
     // Case Status with headline updater
     embed("#status-vis", "../js/drug_case_status.vg.json", "status-slider-host").then((res) => {

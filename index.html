@@ -16,6 +16,7 @@
   <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
 
   <link rel="stylesheet" href="css/style.css" />
 </head>
@@ -41,15 +42,17 @@
           <img src="https://raw.githubusercontent.com/lemon040805/34003568_w10/main/data/substance-abuse.png"
             alt="Illustration related to substance use and harm reduction"
             style="max-width: clamp(140px, 16vw, 200px); height: auto;" loading="lazy" />
+
+          <div class="gh-in-hero">
+            <a class="github-button" href="https://github.com/lemon040805/drug_addicts_in_malaysia" data-size="large"
+              data-color-scheme="light" aria-label="Visit lemon040805/drug_addicts_in_malaysia on GitHub" target="_blank"
+              rel="noopener noreferrer">
+              Visit Project
+            </a>
+          </div>
         </div>
       </div>
-      <div class="gh-in-hero ">
-        <a class="github-button" href="https://github.com/lemon040805/drug_addicts_in_malaysia" data-size="large"
-          
-          aria-label="Visit lemon040805/drug_addicts_in_malaysia on GitHub" target="_blank" rel="noopener noreferrer">
-          Visit Project
-        </a>
-      </div>
+
     </div>
   </header>
 
@@ -779,23 +782,32 @@
       }
     });
 
+    document.addEventListener('DOMContentLoaded', () => {
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+      if (location.hash) {
+        history.replaceState(null, '', location.pathname + location.search); // clear #...
+      }
+      requestAnimationFrame(() => window.scrollTo(0, 0));
+    });
+
     document.addEventListener("click", function (e) {
       const a = e.target.closest("a.link-contacts-tab");
       if (!a) return;
       e.preventDefault();
-      $("#tab-contacts-link").tab("show");
-      const panel = document.getElementById("tab-contacts");
-      if (panel) {
-        panel.scrollIntoView({ behavior: "smooth", block: "start" });
+      const tabLink = document.getElementById("tab-contacts-link");
+      if (!tabLink) return;
+      if (window.jQuery && jQuery.fn && typeof jQuery.fn.tab === "function") {
+        jQuery(tabLink).tab("show");
+      } else {
+        tabLink.click();
       }
-      if (history.pushState) history.pushState(null, "", "#tab-contacts");
-      else location.hash = "#tab-contacts";
+      const panel = document.getElementById("tab-contacts");
+      if (panel) panel.scrollIntoView({ behavior: "smooth", block: "start" });
     }, true);
-    if (location.hash === "#tab-contacts") {
-      $("#tab-contacts-link").tab("show");
-    }
+
+
   </script>
-  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
 </body>
 
 </html>
